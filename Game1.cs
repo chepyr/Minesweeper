@@ -23,6 +23,8 @@ public class Game1 : Game
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+        Window.AllowUserResizing = true;
+        Window.ClientSizeChanged += Window_ClientSizeChanged;
     }
 
     protected override void Initialize()
@@ -65,5 +67,14 @@ public class Game1 : Game
         cell.Draw((_spriteBatch));
 
         base.Draw(gameTime);
+    }
+    
+    private void Window_ClientSizeChanged(object sender, System.EventArgs e)
+    {
+        Window.ClientSizeChanged -= Window_ClientSizeChanged;
+        _graphics.PreferredBackBufferWidth = Window.ClientBounds.Width < 100 ? 100 : Window.ClientBounds.Width;
+        _graphics.PreferredBackBufferHeight = Window.ClientBounds.Height < 100 ? 100 : Window.ClientBounds.Height;
+        _graphics.ApplyChanges();
+        Window.ClientSizeChanged += Window_ClientSizeChanged;
     }
 }
