@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -10,6 +11,12 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
 
     private Cell cell;
+
+
+    private static readonly Dictionary<string, Color> Colors = new Dictionary<string, Color>()
+    {
+        ["background"] = new Color(116, 141, 166)
+    };
 
     public Game1()
     {
@@ -34,7 +41,8 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+            Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
         var mouseState = Mouse.GetState();
@@ -52,7 +60,7 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Colors["background"]);
 
         cell.Draw((_spriteBatch));
 
