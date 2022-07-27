@@ -5,18 +5,20 @@ namespace MyGame;
 
 public class Cell
 {
-    public static Texture2D texture2D;
-    public Rectangle area;
+    public static Texture2D Texture2D;
+    public Rectangle Area;
+    public static int Size = 30;
+    public static int DistanceBetweenCells = 5;
 
-    public Cell(int x, int y, int size)
+    public Cell(int x, int y)
     {
-        area = new Rectangle(x, y, size, size);
+        Area = new Rectangle(x, y, Size, Size);
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Begin();
-        spriteBatch.Draw(Cell.texture2D, area, Color.White);
+        spriteBatch.Draw(Cell.Texture2D, Area, Color.White);
         spriteBatch.End();
     }
 }

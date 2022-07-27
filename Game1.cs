@@ -9,9 +9,11 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-
-    private Cell cell;
-
+    
+    private Field _field;
+    
+    public static int windowHeight = 400;
+    public static int windowWidth = 400;
 
     private static readonly Dictionary<string, Color> Colors = new Dictionary<string, Color>()
     {
@@ -25,11 +27,15 @@ public class Game1 : Game
         IsMouseVisible = true;
         Window.AllowUserResizing = true;
         Window.ClientSizeChanged += Window_ClientSizeChanged;
+        
+        _graphics.PreferredBackBufferWidth = windowWidth;
+        _graphics.PreferredBackBufferHeight = windowHeight;
+        _graphics.ApplyChanges();
     }
 
     protected override void Initialize()
     {
-        cell = new Cell(0, 0, 30);
+        _field = new Field(10, 10);
 
         base.Initialize();
     }
@@ -38,7 +44,8 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        Cell.texture2D = Content.Load<Texture2D>("cell");
+        Cell.Texture2D = Content.Load<Texture2D>("cell");
+        Field.Texture2D = Content.Load<Texture2D>("field");
     }
 
     protected override void Update(GameTime gameTime)
@@ -51,10 +58,10 @@ public class Game1 : Game
         var mousePosition = new Point(mouseState.X, mouseState.Y);
         if (mouseState.LeftButton == ButtonState.Pressed)
         {
-            if (cell.area.Contains(mousePosition))
-            {
-                Exit();
-            }
+            // if (_cell.Area.Contains(mousePosition))
+            // {
+            //     Exit();
+            // }
         }
 
         base.Update(gameTime);
@@ -64,7 +71,8 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Colors["background"]);
 
-        cell.Draw((_spriteBatch));
+        // _cell.Draw(_spriteBatch);
+        _field.Draw(_spriteBatch);
 
         base.Draw(gameTime);
     }
@@ -72,9 +80,11 @@ public class Game1 : Game
     private void Window_ClientSizeChanged(object sender, System.EventArgs e)
     {
         Window.ClientSizeChanged -= Window_ClientSizeChanged;
-        _graphics.PreferredBackBufferWidth = Window.ClientBounds.Width < 100 ? 100 : Window.ClientBounds.Width;
-        _graphics.PreferredBackBufferHeight = Window.ClientBounds.Height < 100 ? 100 : Window.ClientBounds.Height;
+        _graphics.PreferredBackBufferWidth = Window.ClientBounds.Width < 200 ? 200 : Window.ClientBounds.Width;
+        _graphics.PreferredBackBufferHeight = Window.ClientBounds.Height < 200 ? 200 : Window.ClientBounds.Height;
         _graphics.ApplyChanges();
         Window.ClientSizeChanged += Window_ClientSizeChanged;
+        
+        _field.UpdatePosition(Window.ClientBounds);
     }
 }
