@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,8 +10,8 @@ public class Field
     private int nRows, nColumns;
     private List<List<Cell>> _field;
     public static Texture2D Texture2D;
-    private Rectangle area;
-    private Rectangle fieldSize;
+    public static Rectangle Area;
+    private readonly Rectangle fieldSize;
 
     public Field(int nRows, int nColumns)
     {
@@ -34,19 +35,30 @@ public class Field
         UpdatePosition(new Rectangle(0, 0, Game1.windowWidth, Game1.windowHeight));
     }
 
+    public void GenerateGameField(Cell clickedCell)
+    {
+        
+    }
+
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Begin();
-        spriteBatch.Draw(Field.Texture2D, area, Color.White);
-        spriteBatch.End();
+        spriteBatch.Draw(Field.Texture2D, Area, Color.White);
+        foreach (var cell in _field.SelectMany(row => row))
+        {
+            cell.Draw(spriteBatch);
+        }
     }
 
     public void UpdatePosition(Rectangle windowSize)
     {
-        area = new Rectangle(
+        Area = new Rectangle(
             (windowSize.Width - fieldSize.Width) / 2,
             (windowSize.Height - fieldSize.Height) / 2,
             fieldSize.Width, fieldSize.Height
         );
+        foreach (var cell in _field.SelectMany(row => row))
+        {
+            cell.UpdatePosition();
+        }
     }
 }

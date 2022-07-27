@@ -12,8 +12,8 @@ public class Game1 : Game
     
     private Field _field;
     
-    public static int windowHeight = 400;
-    public static int windowWidth = 400;
+    public static int windowHeight = 800;
+    public static int windowWidth = 800;
 
     private static readonly Dictionary<string, Color> Colors = new Dictionary<string, Color>()
     {
@@ -70,9 +70,11 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Colors["background"]);
-
+        
+        _spriteBatch.Begin();
         // _cell.Draw(_spriteBatch);
         _field.Draw(_spriteBatch);
+        _spriteBatch.End();
 
         base.Draw(gameTime);
     }
@@ -80,8 +82,8 @@ public class Game1 : Game
     private void Window_ClientSizeChanged(object sender, System.EventArgs e)
     {
         Window.ClientSizeChanged -= Window_ClientSizeChanged;
-        _graphics.PreferredBackBufferWidth = Window.ClientBounds.Width < 200 ? 200 : Window.ClientBounds.Width;
-        _graphics.PreferredBackBufferHeight = Window.ClientBounds.Height < 200 ? 200 : Window.ClientBounds.Height;
+        _graphics.PreferredBackBufferWidth = Window.ClientBounds.Width < 400 ? 400 : Window.ClientBounds.Width;
+        _graphics.PreferredBackBufferHeight = Window.ClientBounds.Height < 400 ? 400 : Window.ClientBounds.Height;
         _graphics.ApplyChanges();
         Window.ClientSizeChanged += Window_ClientSizeChanged;
         

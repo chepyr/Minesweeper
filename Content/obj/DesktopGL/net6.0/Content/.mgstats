@@ -1,2 +1,3 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/Anya/RiderProjects/MyGame/Content/field.png","C:/Users/Anya/RiderProjects/MyGame/Content/bin/DesktopGL/Content/field.xnb","TextureProcessor","Texture2DContent",3957,2630969,0,4248877
+"C:/Users/Anya/RiderProjects/MyGame/Content/../../../Documents/project_pics/cell.png","C:/Users/Anya/RiderProjects/MyGame/Content/bin/DesktopGL/Content/cell.xnb","TextureProcessor","Texture2DContent",1111,350513,0,331257
+"C:/Users/Anya/RiderProjects/MyGame/Content/cell.png","C:/Users/Anya/RiderProjects/MyGame/Content/bin/DesktopGL/Content/cell.xnb","TextureProcessor","Texture2DContent",1111,350513,0,0240532
