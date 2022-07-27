@@ -39,14 +39,15 @@ public class Field
     public void GenerateGameField(Cell clickedCell)
     {
         // TODO: make a good generate algorithm
-        var bombProbability = 50;
+        var bombProbability = 20;
         foreach (var cell in field.SelectMany(row => row))
         {
-            if (!cell.Equals(clickedCell))
+            if (!cell.Equals(clickedCell) &&
+                (Math.Abs(cell.x - clickedCell.x) > 2 || Math.Abs(cell.y - clickedCell.y) > 2))
             {
                 var random = new Random();
                 cell.IsBomb = Convert.ToBoolean(Math.Round(
-                    random.Next(bombProbability * 2) / 100.0
+                    random.Next(100 - bombProbability) / 100.0
                 ));
             }
         }

@@ -41,7 +41,7 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        _field = new Field(10, 10);
+        _field = new Field(20, 20);
 
         base.Initialize();
     }
