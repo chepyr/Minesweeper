@@ -9,6 +9,8 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
+    private Cell cell;
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -18,7 +20,7 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
+        cell = new Cell(0, 0, 30);
 
         base.Initialize();
     }
@@ -27,7 +29,7 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        // TODO: use this.Content to load your game content here
+        Cell.texture2D = Content.Load<Texture2D>("cell");
     }
 
     protected override void Update(GameTime gameTime)
@@ -35,7 +37,15 @@ public class Game1 : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        // TODO: Add your update logic here
+        var mouseState = Mouse.GetState();
+        var mousePosition = new Point(mouseState.X, mouseState.Y);
+        if (mouseState.LeftButton == ButtonState.Pressed)
+        {
+            if (cell.area.Contains(mousePosition))
+            {
+                Exit();
+            }
+        }
 
         base.Update(gameTime);
     }
@@ -44,7 +54,7 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        // TODO: Add your drawing code here
+        cell.Draw((_spriteBatch));
 
         base.Draw(gameTime);
     }
