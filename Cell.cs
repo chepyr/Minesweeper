@@ -6,9 +6,14 @@ namespace MyGame;
 public class Cell
 {
     public static Texture2D Texture2D;
-    private Rectangle Area;
-    public static int Size = 30;
-    public static int DistanceBetweenCells = 5;
+    public Rectangle Area;
+    public const int Size = 30;
+    public bool IsBomb = false;
+    public int NearbyBombsCount = 0;
+
+    public const int DistanceBetweenCells = 5,
+        DistanceFromEdge = 20;
+
     private int x, y;
 
     public Cell(int x, int y)
@@ -21,8 +26,8 @@ public class Cell
     public void UpdatePosition()
     {
         Area = new Rectangle(
-            Field.Area.Left + DistanceBetweenCells * (x + 1) + x * Size,
-            Field.Area.Top + DistanceBetweenCells * (y + 1) + y * Size,
+            Field.Area.Left + (DistanceBetweenCells + Size) * x + DistanceFromEdge,
+            Field.Area.Top + (DistanceBetweenCells + Size) * y + DistanceFromEdge,
             Size, Size
         );
     }

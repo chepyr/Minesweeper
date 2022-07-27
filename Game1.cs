@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -7,15 +8,16 @@ namespace MyGame;
 
 public class Game1 : Game
 {
-    private GraphicsDeviceManager _graphics;
+    private readonly GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-    
+
     private Field _field;
-    
+    private bool _isGameFieldGenerated;
+
     public static int windowHeight = 800;
     public static int windowWidth = 800;
 
-    private static readonly Dictionary<string, Color> Colors = new Dictionary<string, Color>()
+    private static readonly Dictionary<string, Color> Colors = new()
     {
         ["background"] = new Color(116, 141, 166)
     };
@@ -25,12 +27,15 @@ public class Game1 : Game
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+        Window.Title = "Minesweeper";
         Window.AllowUserResizing = true;
         Window.ClientSizeChanged += Window_ClientSizeChanged;
-        
+
         _graphics.PreferredBackBufferWidth = windowWidth;
         _graphics.PreferredBackBufferHeight = windowHeight;
         _graphics.ApplyChanges();
+
+        _isGameFieldGenerated = false;
     }
 
     protected override void Initialize()
@@ -56,12 +61,27 @@ public class Game1 : Game
 
         var mouseState = Mouse.GetState();
         var mousePosition = new Point(mouseState.X, mouseState.Y);
-        if (mouseState.LeftButton == ButtonState.Pressed)
+        if (mouseState.LeftButton == ButtonState.Pressed || mouseState.RightButton == ButtonState.Pressed)
         {
-            // if (_cell.Area.Contains(mousePosition))
-            // {
-            //     Exit();
-            // }
+            foreach (var cell in _field.field.SelectMany(row => row))
+            {
+                if (cell.Area.Contains(mousePosition))
+                {
+                    if (!_isGameFieldGenerated)
+                    {
+                        _field.GenerateGameField(cell);
+                        _isGameFieldGenerated = true;
+                    }
+                    else if (mouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        // TODO: open a cell
+                    }
+                    else
+                    {
+                        // TODO: set a flag
+                    }
+                }
+            }
         }
 
         base.Update(gameTime);
@@ -70,15 +90,14 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Colors["background"]);
-        
+
         _spriteBatch.Begin();
-        // _cell.Draw(_spriteBatch);
         _field.Draw(_spriteBatch);
         _spriteBatch.End();
 
         base.Draw(gameTime);
     }
-    
+
     private void Window_ClientSizeChanged(object sender, System.EventArgs e)
     {
         Window.ClientSizeChanged -= Window_ClientSizeChanged;
@@ -86,7 +105,7 @@ public class Game1 : Game
         _graphics.PreferredBackBufferHeight = Window.ClientBounds.Height < 400 ? 400 : Window.ClientBounds.Height;
         _graphics.ApplyChanges();
         Window.ClientSizeChanged += Window_ClientSizeChanged;
-        
+
         _field.UpdatePosition(Window.ClientBounds);
     }
 }
