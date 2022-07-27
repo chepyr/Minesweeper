@@ -17,6 +17,7 @@ public class Game1 : Game
     public static int windowHeight = 800;
     public static int windowWidth = 800;
 
+    public static SpriteFont font;
     private static readonly Dictionary<string, Color> Colors = new()
     {
         ["background"] = new Color(116, 141, 166)
@@ -48,6 +49,8 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+        font = Content.Load<SpriteFont>("font");
 
         Cell.Texture2D = Content.Load<Texture2D>("cell");
         Field.Texture2D = Content.Load<Texture2D>("field");

@@ -37,8 +37,9 @@ public class Field
     }
 
     public void GenerateGameField(Cell clickedCell)
-    { // TODO: make a good generate algorithm
-        var bombProbability = 60;
+    {
+        // TODO: make a good generate algorithm
+        var bombProbability = 50;
         foreach (var cell in field.SelectMany(row => row))
         {
             if (!cell.Equals(clickedCell))
@@ -46,20 +47,37 @@ public class Field
                 var random = new Random();
                 cell.IsBomb = Convert.ToBoolean(Math.Round(
                     random.Next(bombProbability * 2) / 100.0
-                    ));
+                ));
             }
         }
+
         CountNearbyBombs();
     }
 
     private void CountNearbyBombs()
     {
-        for (var row = 0; row < nRows; row++)
+        foreach (var cell in field.SelectMany(row => row))
         {
-            for (var col = 0; col < nColumns; col++)
-            {
-                
-            }
+            if (!cell.IsBomb)
+                cell.NearbyBombsCount = CountBombs(cell.x, cell.y);
+        }
+
+        int CountBombs(int x, int y)
+        {
+            var count = 0;
+            for (var i = -1; i <= 1; i++)
+            for (var j = -1; j <= 1; j++)
+                if (OutBounds(i + x, j + y))
+                    continue;
+                else
+                    count += Convert.ToInt32(field[j + y][i + x].IsBomb);
+
+            return count;
+        }
+
+        bool OutBounds(int x, int y)
+        {
+            return x < 0 || y < 0 || x >= nColumns || y >= nRows;
         }
     }
 
