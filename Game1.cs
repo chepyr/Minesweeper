@@ -18,9 +18,14 @@ public class Game1 : Game
     public static int windowWidth = 800;
     public static Texture2D flag;
     public static SpriteFont font;
-    private static readonly Dictionary<string, Color> Colors = new()
+    public static readonly Dictionary<string, Color> Colors = new()
     {
-        ["background"] = new Color(116, 141, 166)
+        ["background"] = new Color(116, 141, 166),
+        ["1"] = new Color(73, 92, 131),
+        ["2"] = Color.DarkGreen,
+        ["3"] = Color.IndianRed,
+        ["4"] = Color.MediumPurple,
+        ["5"] = Color.MediumOrchid
     };
 
     public Game1()
@@ -53,7 +58,8 @@ public class Game1 : Game
         font = Content.Load<SpriteFont>("font");
 
         flag = Content.Load<Texture2D>("flag");
-        Cell.Texture2D = Content.Load<Texture2D>("cell");
+        Cell.Texture2DCell = Content.Load<Texture2D>("cell");
+        Cell.Texture2DCellOpened = Content.Load<Texture2D>("cell_opened");
         Field.Texture2D = Content.Load<Texture2D>("field");
     }
 
@@ -78,11 +84,17 @@ public class Game1 : Game
                     }
                     else if (mouseState.LeftButton == ButtonState.Pressed)
                     {
-                        // TODO: open a cell
+                        if (!cell.IsOpen)
+                        {
+                            if (cell.IsBomb)
+                                Exit();
+                            cell.IsOpen = true;
+                        }
                     }
                     else
                     {
-                        cell.IsFlagged = true;
+                        if (!cell.IsOpen)
+                            cell.IsFlagged = true;
                     }
                 }
             }

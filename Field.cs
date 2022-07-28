@@ -38,7 +38,7 @@ public class Field
 
     public void GenerateGameField(Cell clickedCell)
     {
-        var bombProbability = 20;
+        var bombProbability = 18;
         foreach (var cell in field.SelectMany(row => row))
         {
             if (!cell.Equals(clickedCell) &&

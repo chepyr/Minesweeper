@@ -5,7 +5,8 @@ namespace MyGame;
 
 public class Cell
 {
-    public static Texture2D Texture2D;
+    public static Texture2D Texture2DCell;
+    public static Texture2D Texture2DCellOpened;
     public Rectangle Area;
     public const int Size = 30;
 
@@ -39,11 +40,19 @@ public class Cell
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(Cell.Texture2D, Area, Color.White);
+        spriteBatch.Draw(Cell.Texture2DCell, Area, Color.White);
         if (IsOpen)
         {
-            spriteBatch.DrawString(Game1.font, NearbyBombsCount.ToString(),
-                new Vector2(Area.X, Area.Y), Color.DarkBlue);
+            spriteBatch.Draw(Cell.Texture2DCellOpened, Area, Color.White);
+            if (NearbyBombsCount == 0)
+                spriteBatch.Draw(Cell.Texture2DCellOpened, Area, Color.White);
+            else
+                spriteBatch.DrawString(
+                    Game1.font, 
+                    NearbyBombsCount.ToString(),
+                    new Vector2(Area.X + 5, Area.Y), 
+                    Game1.Colors[NearbyBombsCount.ToString()]
+                        );
         }
         else if (IsFlagged)
         {
@@ -51,7 +60,7 @@ public class Cell
         }
         else
         {
-            spriteBatch.Draw(Cell.Texture2D, Area, Color.White);
+            spriteBatch.Draw(Cell.Texture2DCell, Area, Color.White);
         }
     }
 }
