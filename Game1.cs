@@ -16,7 +16,7 @@ public class Game1 : Game
 
     public static int windowHeight = 800;
     public static int windowWidth = 800;
-
+    public static Texture2D flag;
     public static SpriteFont font;
     private static readonly Dictionary<string, Color> Colors = new()
     {
@@ -52,6 +52,7 @@ public class Game1 : Game
 
         font = Content.Load<SpriteFont>("font");
 
+        flag = Content.Load<Texture2D>("flag");
         Cell.Texture2D = Content.Load<Texture2D>("cell");
         Field.Texture2D = Content.Load<Texture2D>("field");
     }
@@ -81,7 +82,7 @@ public class Game1 : Game
                     }
                     else
                     {
-                        // TODO: set a flag
+                        cell.IsFlagged = true;
                     }
                 }
             }

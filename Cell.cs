@@ -41,9 +41,17 @@ public class Cell
     {
         spriteBatch.Draw(Cell.Texture2D, Area, Color.White);
         if (IsOpen)
+        {
             spriteBatch.DrawString(Game1.font, NearbyBombsCount.ToString(),
                 new Vector2(Area.X, Area.Y), Color.DarkBlue);
+        }
+        else if (IsFlagged)
+        {
+            spriteBatch.Draw(Game1.flag, Area, Color.White);
+        }
         else
+        {
             spriteBatch.Draw(Cell.Texture2D, Area, Color.White);
+        }
     }
 }
