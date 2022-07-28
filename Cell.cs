@@ -8,7 +8,11 @@ public class Cell
     public static Texture2D Texture2D;
     public Rectangle Area;
     public const int Size = 30;
-    public bool IsBomb = false;
+
+    public bool IsBomb = false,
+        IsOpen = false,
+        IsFlagged = false;
+
     public int NearbyBombsCount;
 
     public const int DistanceBetweenCells = 5,
@@ -36,10 +40,10 @@ public class Cell
     public void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(Cell.Texture2D, Area, Color.White);
-        if (IsBomb)
-            spriteBatch.Draw(Cell.Texture2D, Area, Color.Red);
-        else
+        if (IsOpen)
             spriteBatch.DrawString(Game1.font, NearbyBombsCount.ToString(),
                 new Vector2(Area.X, Area.Y), Color.DarkBlue);
+        else
+            spriteBatch.Draw(Cell.Texture2D, Area, Color.White);
     }
 }

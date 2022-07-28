@@ -38,7 +38,6 @@ public class Field
 
     public void GenerateGameField(Cell clickedCell)
     {
-        // TODO: make a good generate algorithm
         var bombProbability = 20;
         foreach (var cell in field.SelectMany(row => row))
         {
@@ -51,10 +50,33 @@ public class Field
                 ));
             }
         }
-
         CountNearbyBombs();
+        OpenNearbyZeroCells(clickedCell.y, clickedCell.x);
     }
 
+    // recursive algorithm for opening nearby zero cells
+    private void OpenNearbyZeroCells(int row, int col)
+    {
+        OpenCell(row, col);
+        
+        // TODO: Make outbounds checks
+        void OpenCell(int row, int col)
+        {
+            if (field[row][col].NearbyBombsCount == 0 & !field[row][col].IsOpen)
+            {
+                field[row][col].IsOpen = true;
+                for (var i = -1; i <= 1; i++)
+                    for (var j = -1; j <= 1; j++)
+                        OpenCell(row + i, col + j);
+            }
+            else
+            {
+                field[row][col].IsOpen = true;
+                return;
+            }
+        }
+    }
+    
     private void CountNearbyBombs()
     {
         foreach (var cell in field.SelectMany(row => row))
